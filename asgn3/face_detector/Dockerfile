@@ -15,8 +15,4 @@ RUN pip install paho-mqtt numpy
 
 COPY detect_face.py /
 
-RUN pip install ibm-cos-sdk
-RUN echo "oSHZPcGNsFqUExzmbZft:wzl0xagvkaAEuga0gUXB3Rs9JglmoviCODdYK0NC" > $HOME/.cos_creds
-RUN chmod 600 $HOME/.cos_creds
-
 ENTRYPOINT python detect_face.py
