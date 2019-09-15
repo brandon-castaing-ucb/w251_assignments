@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
-import time
+import base64
+from datetime import datetime
 import paho.mqtt.client as mqtt
 
 def on_connect(client, userdata, flags, rc):
@@ -39,8 +40,9 @@ while(True):
     
     # Only send images with faces
     if face_count > 0:
-        image_title = "face-" + str(time.time()) + ".jpg"
-        gray_str = cv2.imencode(image_title, gray_img)[1].tostring()
+        gray_jpg = cv2.imencode('.jpg', gray_img)[1]
+        cv2.imwrite("face-"+str(datetime.now())+".jpg", gray_img)
+        gray_text = base64.b64encode(gray_jpg)
         
-        pub_resp = client.publish("faces/detect", gray_str, 2)
+        pub_resp = client.publish("faces/detect", gray_text)
         print("Publish response: " + str(pub_resp))

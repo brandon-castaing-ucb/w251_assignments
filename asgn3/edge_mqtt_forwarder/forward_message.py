@@ -12,17 +12,14 @@ def cloud_on_connect(client, userdata, flags, rc):
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client.subscribe("faces/store", 2)
+    client.subscribe("faces/store")
 
 
 def edge_on_message(client, userdata, msg):
-    print("Hey, look a message was published and received!")
-    print(msg.topic + ": " + str(msg.payload))
-
-    print(type(msg.payload))
+    print("Message received on " + msg.topic + ": " + str(msg.payload))
 
     print("Publishing message to the cloud...")
-    pub_resp = cloud_client.publish("faces/store", msg.payload, 2)
+    pub_resp = cloud_client.publish("faces/store", msg.payload)
     print("Publish response: " + str(pub_resp))
     
 
